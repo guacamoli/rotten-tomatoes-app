@@ -23,3 +23,9 @@ Incomplete user stories:
 - Optional: All images should be cached in memory and disk. In other words, images load immediately upon cold start.
 
 Walkthrough of all user stories:
+
+![alt text](https://sahil.box.com/shared/static/o5q1im722n6brylmn6x9.gif)
+
+Offline Banner:
+
+![alt text](https://sahil.box.com/shared/static/e6hck2kqfrpi9eakw2rh.gif)
