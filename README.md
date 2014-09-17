@@ -18,8 +18,8 @@ Completed user stories:
 - [x] Optional: Add a search bar.
 
 Incomplete user stories:
-Optional: All images fade in
-Optional: Add a tab bar for Box Office and DVD.
-Optional: All images should be cached in memory and disk. In other words, images load immediately upon cold start.
+- [] Optional: All images fade in
+- [] Optional: Add a tab bar for Box Office and DVD.
+- [] Optional: All images should be cached in memory and disk. In other words, images load immediately upon cold start.
 
 Walkthrough of all user stories:
