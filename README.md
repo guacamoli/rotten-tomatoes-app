@@ -16,9 +16,9 @@ Completed user stories:
 - [x] Optional: Customize the highlight and selection effect of the cell.
 - [x] Optional: Customize the navigation bar.
 - [x] Optional: Add a search bar.
+- [x] Optional: All images fade in
 
 Incomplete user stories:
-- Optional: All images fade in
 - Optional: Add a tab bar for Box Office and DVD.
 - Optional: All images should be cached in memory and disk. In other words, images load immediately upon cold start.
 
