@@ -14,7 +14,7 @@ Completed user stories:
 - [x]Required: User can pull to refresh the movie list.
 - [x]Optional: For the large poster, load the low-res image first, switch to high-res when complete
 - [x]Optional: Customize the highlight and selection effect of the cell.
--[x]Optional: Customize the navigation bar.
+-[x] Optional: Customize the navigation bar.
 - [x]Optional: Add a search bar.
 
 Incomplete user stories:
