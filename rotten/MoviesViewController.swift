@@ -8,22 +8,32 @@
 
 import UIKit
 
-class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UISearchDisplayDelegate {
-    // Constants
+class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
+
+    /* Constants */
+
     let getBoxOfficeMoviesURL = "http://api.rottentomatoes.com/api/public/v1.0/lists/movies/box_office.json?apikey=z62yeq4nzpkynde4h5k739kn&limit=20"
     let searchMoviesURL = "http://api.rottentomatoes.com/api/public/v1.0/movies.json?page_limit=20&apikey=z62yeq4nzpkynde4h5k739kn&q="
-    
     let pullToRefresh = "Pull down to refresh"
-    // Selectors
+
+    /* Selectors */
+
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var offlineView: UIView!
     @IBOutlet weak var movieSearchBar: UISearchBar!
+    @IBOutlet var gestureRecognizer: UITapGestureRecognizer!
 
-    // Member variables
+    /* Member variables */
+
+    // Holds all the movie information
     var movies: [NSDictionary] = []
-    var refreshControl:UIRefreshControl!  // An optional variable
+    // UI to handle pull down to refresh
+    var refreshControl:UIRefreshControl!
+    // Stores current search request string
     var currentSearch = ""
-    
+
+    /* Lifecycle Methods */
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -50,9 +60,16 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         getMovieList()
     }
 
+    override func viewWillDisappear(animated: Bool) {
+        movieSearchBar.endEditing(true)
+    }
+
     override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()    }
+        super.didReceiveMemoryWarning()
+    }
     
+    /* TableView methods */
+
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return movies.count
     }
@@ -76,6 +93,8 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         return movieCell
     }
 
+    /* SearchBar Methods */
+
     func searchBar(searchBar: UISearchBar!, textDidChange searchText: String!) {
         self.currentSearch = searchText
 
@@ -88,20 +107,30 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
     }
 
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        movieSearchBar.endEditing(true)
+    }
+
+    /* Segue Handler */
+
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         var selectedRow = tableView.indexPathForSelectedRow()?.row
         var movieDetails = movies[selectedRow!]
         var destinationViewController = segue.destinationViewController as MovieDetailsViewController
-
+        // Set up movie details inside the MovieDetailsViewController
         destinationViewController.movieDetails = movieDetails
     }
-    
+
+    /* Helpers */
+
+
+    // Handles the GET Movies API and Search Requests
     func getMovieList(searchString: String = "") -> Void {
         var requestUrl = getBoxOfficeMoviesURL
         var isSearch = false
         
         if !searchString.isEmpty {
-            requestUrl = searchMoviesURL + searchString
+            requestUrl = searchMoviesURL + searchString.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLHostAllowedCharacterSet())!
             isSearch = true
         }
 
@@ -138,11 +167,13 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
             }
         }
     }
-    
+
+    // Handle pull down to refresh
     func refresh(sender: AnyObject) {
-        getMovieList()
+        getMovieList(searchString: self.currentSearch)
     }
-    
+
+    // Show Offline Banner
     func showOfflineBanner() {
         // If the banner is already visible don't do anything
         if (!offlineView.hidden) {
@@ -157,7 +188,8 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         })
 
     }
-    
+
+    // Hide Offline Banner
     func hideOfflineBannerIfVisible() {
         // If the banner is already visible don't do anything
         if (offlineView.hidden) {
@@ -170,5 +202,6 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
             self.offlineView.hidden = true
         })
     }
+
 }
 

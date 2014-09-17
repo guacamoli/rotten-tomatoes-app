@@ -10,6 +10,8 @@ import UIKit
 
 class MovieDetailsViewController: UIViewController {
 
+    /* Selectors */
+
     @IBOutlet weak var moviePosterView: UIImageView!
     @IBOutlet weak var navTitle: UINavigationItem!
     @IBOutlet weak var titleAndYearLabel: UILabel!
@@ -17,10 +19,13 @@ class MovieDetailsViewController: UIViewController {
     @IBOutlet weak var synopsisLabel: UILabel!
     @IBOutlet weak var criticScoreLabel: UILabel!
     @IBOutlet weak var audienceScoreLabel: UILabel!
-
     @IBOutlet weak var movieScrollView: UIScrollView!
 
+    /* Member variables */
+
     var movieDetails = NSDictionary()
+
+    /* Lifecycle Methods */
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -62,6 +67,8 @@ class MovieDetailsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    /* Gesture Handlers */
+
     @IBAction func handlePanGesture(recognizer: UIPanGestureRecognizer) {
         let translation = recognizer.translationInView(self.view)
         let currentCenterY = recognizer.view!.center.y
@@ -87,11 +94,9 @@ class MovieDetailsViewController: UIViewController {
                     
             })
         }
-
- 
     }
     
-    // Helper
+    /* Helper Method */
     func fixImageUrl(originalUrl: String) -> String {
         return originalUrl.stringByReplacingOccurrencesOfString("tmb", withString: "ori")
     }
