@@ -88,8 +88,21 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
         movieCell.titleLabel!.text = movieTitle
         movieCell.synopsisLabel!.text = movieParentalRating! + " " + movieSynopsis!
-        movieCell.movieImageView.setImageWithURL(NSURL(string: posterUrl))
-        
+
+        movieCell.movieImageView.backgroundColor = UIColor.blackColor()
+        movieCell.movieImageView.alpha = 0.0
+
+        // Fade-in images
+        movieCell.movieImageView.setImageWithURLRequest(NSURLRequest(URL: NSURL(string:posterUrl)), placeholderImage: nil, success: { (request: NSURLRequest!, response: NSHTTPURLResponse!, image: UIImage!) -> Void in
+            movieCell.movieImageView.image = image
+
+            UIView.animateWithDuration(0.5, animations: { () -> Void in
+                movieCell.movieImageView.alpha = 1.0
+            }, completion: { (Bool) -> Void in
+            })
+            }) { (request: NSURLRequest!, response: NSHTTPURLResponse!, error: NSError!) -> Void in
+        }
+
         return movieCell
     }
 
@@ -122,7 +135,6 @@ class MoviesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
 
     /* Helpers */
-
 
     // Handles the GET Movies API and Search Requests
     func getMovieList(searchString: String = "") -> Void {
